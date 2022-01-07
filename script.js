@@ -18,7 +18,7 @@ const setEnableCheckAndInput = function () {
     document.querySelector(".guess").disabled = false;
 };
 
- document.querySelector(".check").addEventListener("click", function () {
+const gameLogic = function () {
     const guess = Number(document.querySelector(".guess").value);
 
     if (!guess) {
@@ -48,16 +48,36 @@ const setEnableCheckAndInput = function () {
             setDisableCheckAndInput();
         }
     }
+};
+
+const gameReset = function () {
+    score = 5;
+    secretNumber = Math.trunc(Math.random() * 20) + 1;
+    setEnableCheckAndInput();
+    setTextContent(".message", "Start guessing...");
+    setTextContent(".number", "?");
+    document.querySelector(".score").textContent = String(score);
+    document.querySelector(".guess").value = "";
+    document.querySelector("body").style.backgroundColor = "#222";
+    document.querySelector(".number").style.width = "15rem";
+};
+
+ document.querySelector(".check").addEventListener("click", function () {
+    gameLogic();
+});
+
+document.querySelector("body").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        gameLogic();
+    }
+});
+
+document.querySelector("body").addEventListener("keypress", function (e) {
+   if (e.key === "r") {
+       gameReset();
+   }
 });
 
  document.querySelector(".again").addEventListener("click", function () {
-   score = 5;
-   secretNumber = Math.trunc(Math.random() * 20) + 1;
-   setEnableCheckAndInput();
-   setTextContent(".message", "Start guessing...");
-   setTextContent(".number", "?");
-   document.querySelector(".score").textContent = String(score);
-   document.querySelector(".guess").value = "";
-   document.querySelector("body").style.backgroundColor = "#222";
-   document.querySelector(".number").style.width = "15rem";
+   gameReset();
 });
