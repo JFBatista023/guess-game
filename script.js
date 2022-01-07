@@ -21,20 +21,19 @@ const setEnableCheckAndInput = function () {
 const gameLogic = function () {
     const guess = Number(document.querySelector(".guess").value);
 
-    if (!guess) {
-        setTextContent(".message", "⛔ No number!");
+    if (guess <= 0 || guess > 20 || !Number.isInteger(guess)) {
+        setTextContent(".message", "⛔ Enter an integer number between 1 and 20")
     } else if (guess === secretNumber) {
         setTextContent(".message", "🎉 Correct Number!");
         setTextContent(".number", String(secretNumber));
         document.querySelector("body").style.backgroundColor = "#60b347";
         document.querySelector(".number").style.width = "30rem";
-
+        setDisableCheckAndInput();
+        
         if (score > highScore) {
             highScore = score;
             setTextContent(".highscore", String(highScore));
         }
-
-        setDisableCheckAndInput();
     } else {
         if (score > 1) {
             setTextContent(".message", guess > secretNumber ? "📈 Too high!" : "📉 Too low!");
@@ -62,7 +61,7 @@ const gameReset = function () {
     document.querySelector(".number").style.width = "15rem";
 };
 
- document.querySelector(".check").addEventListener("click", function () {
+document.querySelector(".check").addEventListener("click", function () {
     gameLogic();
 });
 
@@ -78,6 +77,6 @@ document.querySelector("body").addEventListener("keypress", function (e) {
    }
 });
 
- document.querySelector(".again").addEventListener("click", function () {
+document.querySelector(".again").addEventListener("click", function () {
    gameReset();
 });
